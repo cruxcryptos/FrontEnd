@@ -1,24 +1,9 @@
-# AdEx Staking UI
+# CRUX Staking UI
 
 ## Staking
 
-This is the UI for staking on the [AdEx Registry](https://github.com/adexnetwork/adex-protocol#registry).
+UI for CRUX STAKING 
 
-It is hosted at [staking.adex.network](https://staking.adex.network), but you may choose to run it locally from source by cloning this repository and running `yarn install && yarn start`.
-
-Smart contracts: https://github.com/adexnetwork/adex-protocol-eth
-
-Terms and conditions: https://www.adex.network/tos/
-
-## Screenshots
-
-### Pools dashboard
-
-![Pools](./screenshots/1.png)
-
-### Gasless staking
-
-![Gasless](./screenshots/2.png)
 
 ## Available Scripts
 
