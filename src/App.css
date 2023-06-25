@@ -1,0 +1,50 @@
+import image from a,
+img {
+	-webkit-user-drag: none;
+	user-select: none;
+	user-drag: none;
+}
+
+.telegrambutton {
+	background-color: #2196f3 !important;
+}
+
+#rootclassyc {
+	background-image: url(/src/components/army.png);
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: right;
+}
+
+@media print {
+	html,
+	body {
+		height: initial !important;
+		overflow: initial !important;
+		-webkit-print-color-adjust: exact;
+	}
+}
+
+@font-face {
+	font-family: "Roboto";
+	font-weight: 300;
+	src: local("Roboto"), url(./fonts/Roboto-Light.ttf) format("truetype");
+}
+
+@font-face {
+	font-family: "Roboto";
+	font-weight: 400;
+	src: local("Roboto"), url(./fonts/Roboto-Regular.ttf) format("truetype");
+}
+
+@font-face {
+	font-family: "Roboto";
+	font-weight: 500;
+	src: local("Roboto"), url(./fonts/Roboto-Medium.ttf) format("truetype");
+}
+
+@font-face {
+	font-family: "Roboto";
+	font-weight: 700;
+	src: local("Roboto"), url(./fonts/Roboto-Bold.ttf) format("truetype");
+}
