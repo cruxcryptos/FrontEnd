@@ -2,7 +2,7 @@
 
 ## Staking
 
-UI for CRUX STAKING 
+UI for CRUX STAKING POOL.
 
 
 ## Available Scripts
