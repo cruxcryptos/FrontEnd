@@ -4,6 +4,7 @@ import BalanceTree from "adex-protocol-eth/js/BalanceTree"
 import StakingABI from "adex-protocol-eth/abi/Staking"
 import CoreABI from "adex-protocol-eth/abi/AdExCore"
 import ERC20ABI from "../abi/ERC20"
+import CRUXABI from "../abi/CRUXABI"
 
 import CRUX_MIDPOOL_ABI from "../abi/CRUX_MIDPOOL_STAKE_ABI"
 import {
@@ -28,7 +29,7 @@ import { executeOnIdentity, toChannelTuple } from "./common"
 
 const defaultProvider = getDefaultProvider
 
-const Staking = new Contract(ADDR_STAKING, StakingABI, defaultProvider)
+//const Staking = new Contract(ADDR_STAKING, StakingABI, defaultProvider)
 
 //CRUX
 const Token = new Contract(ADDR_ADX, ERC20ABI, defaultProvider)
@@ -114,7 +115,7 @@ export const EMPTY_STATS = {
 
 export async function loadStats(chosenWalletType, prices) {
 	const [totalStake, userStats] = await Promise.all([
-		Token.balanceOf(ADDR_STAKING),
+		Token.balanceOf("0xD641156213ad80A007993a1D9cE80085414CFF39"),
 		loadUserStats(chosenWalletType, prices)
 	])
 
@@ -236,16 +237,10 @@ export async function loadUserStats(chosenWalletType, prices) {
 export async function loadBondStats(addr, identityAddr) {
 	const [
 		[userWalletBalance, userIdentityBalance],
-		logs,
 		// slashLogs,
 		migrationLogs = []
 	] = await Promise.all([
-		Promise.all([Token.balanceOf(addr), Token.balanceOf(identityAddr)]),
-		defaultProvider.getLogs({
-			fromBlock: 0,
-			address: ADDR_STAKING,
-			topics: [null, utils.hexZeroPad(identityAddr, 32)]
-		})
+		Promise.all([Token.balanceOf(addr), Token.balanceOf(identityAddr)])
 		// defaultProvider.getLogs({
 		// 	fromBlock: 0,
 		// 	...Staking.filters.LogSlash(null, null)
@@ -260,38 +255,7 @@ export async function loadBondStats(addr, identityAddr) {
 	// 	pools[poolId] = newSlashPts
 	// 	return pools
 	// }, {})
-
-	const userBonds = logs.reduce((bonds, log) => {
-		const topic = log.topics[0]
-		// TODO: add is migrations Unbond request and migrated status
-		// status = "MigrationRequested"
-
-		if (topic === Staking.interface.getEventTopic("LogBond")) {
-			const vals = Staking.interface.parseLog(log).args
-			const { owner, amount, poolId, nonce, slashedAtStart, time } = vals
-			const bond = { owner, amount, poolId, nonce, slashedAtStart, time }
-
-			const id = getBondId(bond)
-		} else if (
-			topic === Staking.interface.getEventTopic("LogUnbondRequested")
-		) {
-			// NOTE: assuming that .find() will return something is safe, as long as the logs are properly ordered
-			const { bondId, willUnlock } = Staking.interface.parseLog(log).args
-			const bond = bonds.find(({ id }) => id === bondId)
-
-			if (bond.status !== "Migrated") {
-				bond.status = "UnbondRequested"
-			}
-
-			bond.willUnlock = new Date(willUnlock * 1000)
-		} else if (topic === Staking.interface.getEventTopic("LogUnbonded")) {
-			const { bondId } = Staking.interface.parseLog(log).args
-			const bond = bonds.find(({ id }) => id === bondId)
-			bond.status = "Unbonded"
-		}
-
-		return bonds
-	}, [])
+	const userBonds = ""
 
 	return {
 		userBonds,
@@ -364,26 +328,8 @@ export async function reBond(chosenWalletType, { amount, poolId, nonce }) {
 	if (!signer) throw new Error("errors.failedToGetSigner")
 	const walletAddr = await signer.getAddress()
 	const { addr } = getUserIdentity(walletAddr)
-	const allowanceStaking = await Token.allowance(addr, Staking.address)
 	return executeOnIdentity(
-		chosenWalletType,
-		(allowanceStaking.lt(amount)
-			? [
-					[
-						Token.address,
-						Token.interface.encodeFunctionData("approve", [
-							Staking.address,
-							MAX_UINT
-						])
-					]
-			  ]
-			: []
-		).concat([
-			[
-				Staking.address,
-				Staking.interface.encodeFunctionData("replaceBond", [bond, bond])
-			]
-		])
+		chosenWalletType,0
 	)
 }
 

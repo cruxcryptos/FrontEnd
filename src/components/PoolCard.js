@@ -100,7 +100,7 @@ export default function PoolCard({
 }) {
 	const { t } = useTranslation()
 	const classes = useStyles()
-
+	const temporarydisable = true
 	return (
 		<Box
 			bgcolor={"background.card"}
@@ -143,14 +143,20 @@ export default function PoolCard({
 							fontWeight={"fontWeightRegular"}
 							fontSize={14}
 							text={
-								percentageFilledPool ? percentageFilledPool + "% Filled" : 0 + "% Filled"}
+								percentageFilledPool
+									? percentageFilledPool + "% Filled"
+									: 0 + "% Filled"
+							}
 							// infoText={t('common.totalStaked')}
 							justify="center"
 						/>{" "}
 						<LinearProgress
 							variant="buffer"
 							value={
-								percentageFilledPool ? percentageFilledPool + "% Filled" : 0 + "% Filled"}
+								percentageFilledPool
+									? percentageFilledPool + "% Filled"
+									: 0 + "% Filled"
+							}
 							valueBuffer={100}
 						/>
 						<p>
@@ -227,96 +233,102 @@ export default function PoolCard({
 							justify="center"
 							mb={3}
 						/>{" "}
-						<CardRow
-							color="text.main"
-							fontWeight={"fontWeightRegular"}
-							fontSize={14}
-							text="Pool Started on"
-							infoText="Pool openned for the first time on the date presented."
-							// infoText={"Current annual yield (APY)"}
-							justify="center"
-						/>
-						<CardRow
-							color="text.primary"
-							fontWeight={"fontWeightBold"}
-							fontSize={14}
-							text={`${new moment.unix(startStakingDate).format(
-								"DD-MM-YYYY h:mm A"
-							)}`}
-							isAmountText
-							// infoText={totalStakedADX}
-							justify="center"
-							mb={3}
-						/>
-						<CardRow
-							color="text.main"
-							fontWeight={"fontWeightRegular"}
-							fontSize={14}
-							text="Pool Ends on"
-							infoText="Pool closes on the date presented."
-							// infoText={"Current annual yield (APY)"}
-							justify="center"
-						/>
-						<CardRow
-							color="text.primary"
-							fontWeight={"fontWeightBold"}
-							fontSize={14}
-							text={`${new moment.unix(endStakingDate).format(
-								"DD-MM-YYYY h:mm A"
-							)}`}
-							isAmountText
-							// infoText={totalStakedADX}
-							justify="center"
-							mb={3}
-						/>
-						{extraData.map(data => (
-							<Fragment key={data.id}>
+						{!temporarydisable ? (
+							<>
 								<CardRow
 									color="text.main"
 									fontWeight={"fontWeightRegular"}
 									fontSize={14}
-									text={data.title}
-									infoText={data.titleInfo}
+									text="Pool Started on"
+									infoText="Pool openned for the first time on the date presented."
+									// infoText={"Current annual yield (APY)"}
 									justify="center"
 								/>
+								<CardRow
+									color="text.primary"
+									fontWeight={"fontWeightBold"}
+									fontSize={14}
+									text={`${new moment.unix(startStakingDate).format(
+										"DD-MM-YYYY h:mm A"
+									)}`}
+									isAmountText
+									// infoText={totalStakedADX}
+									justify="center"
+									mb={3}
+								/>
+								<CardRow
+									color="text.main"
+									fontWeight={"fontWeightRegular"}
+									fontSize={14}
+									text="Pool Ends on"
+									infoText="Pool closes on the date presented."
+									// infoText={"Current annual yield (APY)"}
+									justify="center"
+								/>
+								<CardRow
+									color="text.primary"
+									fontWeight={"fontWeightBold"}
+									fontSize={14}
+									text={`${new moment.unix(endStakingDate).format(
+										"DD-MM-YYYY h:mm A"
+									)}`}
+									isAmountText
+									// infoText={totalStakedADX}
+									justify="center"
+									mb={3}
+								/>
+								{extraData.map(data => (
+									<Fragment key={data.id}>
+										<CardRow
+											color="text.main"
+											fontWeight={"fontWeightRegular"}
+											fontSize={14}
+											text={data.title}
+											infoText={data.titleInfo}
+											justify="center"
+										/>
 
-								{data.importantValue && (
-									<CardRow
-										color="special.main"
-										fontWeight={"fontWeightBold"}
-										fontSize={20}
-										text={data.importantValue}
-										isAmountText
-										infoText={data.valueInfo}
-										justify="center"
-									/>
-								)}
+										{data.importantValue && (
+											<CardRow
+												color="special.main"
+												fontWeight={"fontWeightBold"}
+												fontSize={20}
+												text={data.importantValue}
+												isAmountText
+												infoText={data.valueInfo}
+												justify="center"
+											/>
+										)}
 
-								{data.normalValue && (
-									<CardRow
-										color="text.primary"
-										fontWeight={"fontWeightRegular"}
-										fontSize={14}
-										text={data.normalValue}
-										infoText={data.valueInfo}
-										justify="center"
-										mb={3}
-									/>
-								)}
+										{data.normalValue && (
+											<CardRow
+												color="text.primary"
+												fontWeight={"fontWeightRegular"}
+												fontSize={14}
+												text={data.normalValue}
+												infoText={data.valueInfo}
+												justify="center"
+												mb={3}
+											/>
+										)}
 
-								{data.extra && (
-									<CardRow
-										color="text.primary"
-										fontWeight={"fontWeightRegular"}
-										fontSize={14}
-										text={data.extra}
-										infoText={data.extrInfo}
-										justify="center"
-										mb={3}
-									/>
-								)}
-							</Fragment>
-						))}
+										{data.extra && (
+											<CardRow
+												color="text.primary"
+												fontWeight={"fontWeightRegular"}
+												fontSize={14}
+												text={data.extra}
+												infoText={data.extrInfo}
+												justify="center"
+												mb={3}
+											/>
+										)}
+									</Fragment>
+								))}{" "}
+							</>
+						) : (
+							<></>
+						)}
 						{!!statsPath && (
 							<Box mb={2}>
 								<ButtonWithLink
@@ -333,6 +345,9 @@ export default function PoolCard({
 								</ButtonWithLink>
 							</Box>
 						)}
+						
+						{!temporarydisable ? (
+							<>
 						<Tooltip title={disabled ? disabledInfo : ""}>
 							<div>
 								{actionBtn || (
@@ -352,7 +367,7 @@ export default function PoolCard({
 							</div>
 						</Tooltip>
 						<p></p>
-						{totalStakedADXuser.length > 0 && (
+						{totalStakedUSDUser > 0 && (
 							<>
 								<p
 									style={{ width: "100%", height: "2px", marginBottom: "10px" }}
@@ -504,6 +519,7 @@ export default function PoolCard({
 								</div>
 							</>
 						)}
+						</>) : <><div style={{width:'100%', fontWeight:'bold',textAlign:'center'}}><h2 style={{fontWeight:'800', color:'yellow'}}>Live 28th June</h2></div></>}
 					</Box>
 				</>
 			)}

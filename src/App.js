@@ -34,7 +34,7 @@ const App = () => {
 }
 
 function getLibrary(provider) {
-	return new ethers.providers.Web3Provider(provider)
+	return new ethers.providers.Web3Provider(provider, 'any')
 }
 
 const Web3ReactProviderWalletConnect = createWeb3ReactRoot(WALLET_CONNECT)

@@ -57,7 +57,9 @@ export const LOYALTY_POOP_EMPTY_STATS = {
 }
 
 export async function loadCruxMidPoolData(addr) {
+	console.log('getting stats')
 	if (addr !== undefined) {
+		console.log('wallet detected')
 		const [
 			poolTotalStaked,
 			currentAPY,
@@ -88,6 +90,7 @@ export async function loadCruxMidPoolData(addr) {
 			(100 * poolTotalStaked) /
 			poolDepositsLimit
 		).toFixed(2)
+		console.log('current Apy: ' + currentAPY)
 
 		return {
 			...LOYALTY_POOP_EMPTY_STATS,

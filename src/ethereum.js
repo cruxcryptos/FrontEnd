@@ -10,14 +10,14 @@ const LocalProvider = REACT_APP_RPC_URL.startsWith("wss://")
 export const getDefaultProvider = (function() {
 	let defaultProvider = new LocalProvider(
 		REACT_APP_RPC_URL,
-		useTestnet ? "sepolia" : "homestead"
+		'any'
 	)
 
 	defaultProvider.on("error", e => {
 		console.error("WS Error", e)
 		defaultProvider = new LocalProvider(
 			REACT_APP_RPC_URL,
-			useTestnet ? "sepolia" : "homestead"
+			'any'
 		)
 	})
 

@@ -114,6 +114,8 @@ const Pools = () => {
 				>
 					{/* SMALL STAKE POOL */}
 					<PoolCard
+					
+					comingSoon={false}
 						id="small-pool"
 						icon={
 							<img
@@ -221,6 +223,8 @@ const Pools = () => {
 
 					{/* MIDSTAKEPOOL */}
 					<PoolCard
+					
+					comingSoon={false}
 						id="loyalty-pool"
 						icon={
 							<img
@@ -331,6 +335,8 @@ const Pools = () => {
 					{/* LONG STAKE POOL */}
 					<PoolCard
 						id="long-pool"
+						
+						comingSoon={false}
 						icon={
 							<img
 								src={PoolThreeImage}

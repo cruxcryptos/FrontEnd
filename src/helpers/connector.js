@@ -16,24 +16,24 @@ export const injected = new InjectedConnector({
 })
 
 export const ledger = new LedgerConnector({
-	chainId: 1,
+	chainId: 56,
 	url: REACT_APP_RPC_URL,
 	pollingInterval: POLLING_INTERVAL
 })
 
 export const trezor = new TrezorConnector({
-	chainId: 1,
+	chainId: 56,
 	url: REACT_APP_RPC_URL,
 	pollingInterval: POLLING_INTERVAL,
-	manifestEmail: "contactus@adex.network",
-	manifestAppUrl: "https://staking.adex.network",
+	manifestEmail: "info@cruxcryptos.com",
+	manifestAppUrl: "https://stake.cruxcryptos.com",
 	config: {
-		networkId: 1
+		networkId: 56
 	}
 })
 
 export const walletconnect = new WalletConnectConnector({
-	rpc: { 1: REACT_APP_RPC_URL },
+	rpc: { 56: REACT_APP_RPC_URL },
 	supportedChainIds: [
 		1,
 		56,

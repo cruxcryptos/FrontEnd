@@ -14,12 +14,12 @@ import { ReactComponent as LINKIcon } from "./../resources/chain-link-logo.svg"
 import { ReactComponent as LoyaltyIcon } from "./../resources/loyalty-ic.svg"
 import { ReactComponent as TomIcon } from "./../resources/tom-ic.svg"
 
-export const useTestnet = true // TODO env cfg
+export const useTestnet = false // TODO env cfg
 
 // CRUX ADDRESS
 export const ADDR_STAKING = useTestnet
 	? "0x5178f1Def5B0a1CAEffB5767D0ae2c4Bb7cC1d6B"
-	: "0x4846c6837ec670bbd1f5b485471c8f64ecb9c534"
+	: "0xD641156213ad80A007993a1D9cE80085414CFF39"
 
 export const ZERO = BigNumber.from(0)
 // export const PRICES_API_URL =
@@ -35,24 +35,24 @@ export const IDLE_TIMEOUT_MINUTES = 10
 
 //CRUX ADDRESS
 export const ADDR_ADX = useTestnet
-	? "0x330fA9d510eF1969AA305854952417A1cAbC3E72"
-	: "0xADE00C28244d5CE17D72E40330B1c318cD12B7c3"
+	? "0x79de0475F021E06F3a622411a445e320842b393C"
+	: "0xD641156213ad80A007993a1D9cE80085414CFF39"
 
 //CRUX SMALL POOL STAKE ADDRESS
 export const CRUX_SMALLPOOL_STAKEADDRESS = useTestnet
-	? "0x5CD8AFDE2894ba1e0B73B4dC066DA15A06A22996"
-	: "0xADE00C28244d5CE17D72E40330B1c318cD12B7c3"
+	? "0xEB235F0BA95d9b6dAFa10689C0777FC8250aE3e9"
+	: "0xdd1a6E0D528CFB5Dda31408e0C30a9c547B01C53"
 //CRUX SMALL POOL STAKE ADDRESS
 
 //CRUX MID POOL STAKE ADDRESS
 export const CRUX_MIDPOOL_STAKEADDRESS = useTestnet
-	? "0x5070A91ce91F6C6e91dBA4ee3BB084a03B5850a0"
-	: "0xADE00C28244d5CE17D72E40330B1c318cD12B7c3"
+	? "0x506d7dcA670F0E110E31428B79F7a0Cef9eBf10A"
+	: "0x9d8E7fAF9e70C5c3E64E99e0E4Ce5cc4d261b135"
 
 //CRUX LARGE POOL STAKE ADDRESS
 export const CRUX_LARGEPOOL_STAKEADDRESS = useTestnet
-	? "0xdCab097d13b4E966638A4dAFD3CD3495d67e230d"
-	: "0xADE00C28244d5CE17D72E40330B1c318cD12B7c3"
+	? "0x215B16a8aEC7374b74D20A9a52d353479F6A6222"
+	: "0x7E9d1E90403DB922445C868FbC34818024B8C41A"
 
 export const ZERO_ADDR = "0x0000000000000000000000000000000000000000"
 
@@ -106,9 +106,9 @@ export const DEPOSIT_POOLS = [
 		rewardPolicy: "pools.loPoRewardPolicy",
 		slashPolicy: "pools.loPoSlashPolicy",
 		url:
-			"https://etherscan.io/address/0x5178f1Def5B0a1CAEffB5767D0ae2c4Bb7cC1d6B",
+			"https://bscscan.com/address/0xdd1a6E0D528CFB5Dda31408e0C30a9c547B01C53",
 		confirmationLabel: null,
-		confirmationUrl: "https://sepolia.etherscan.io/tx//"
+		confirmationUrl: "https://bscscan.com/tx//"
 	},
 	{
 		label: "common.loPo",
@@ -118,9 +118,9 @@ export const DEPOSIT_POOLS = [
 		rewardPolicy: "pools.loPoRewardPolicy",
 		slashPolicy: "pools.loPoSlashPolicy",
 		url:
-			"https://etherscan.io/address/0xc0959377dccb4d95Df6d275051b7Bf447155FD3B",
+			"https://bscscan.com/address/0x9d8E7fAF9e70C5c3E64E99e0E4Ce5cc4d261b135",
 		confirmationLabel: null,
-		confirmationUrl: "https://sepolia.etherscan.io/tx//"
+		confirmationUrl: "https://bscscan.com/tx//"
 	},
 	{
 		label: "common.loPo",
@@ -130,9 +130,9 @@ export const DEPOSIT_POOLS = [
 		rewardPolicy: "pools.loPoRewardPolicy",
 		slashPolicy: "pools.loPoSlashPolicy",
 		url:
-			"https://etherscan.io/address/0xAd6e2B74FA0e6e1EAF5Bba55b6dfFc07E9e922BE",
+			"https://bscscan.com/address/0x7E9d1E90403DB922445C868FbC34818024B8C41A",
 		confirmationLabel: null,
-		confirmationUrl: "https://sepolia.etherscan.io/tx//"
+		confirmationUrl: "https://bscscan.com/tx//"
 	}
 ]
 
@@ -187,23 +187,23 @@ export const Wallets = [
 
 export const SUPPORTED_CHAINS = useTestnet
 	? [{ id: 11155111, name: "sepolia" }]
-	: [{ id: 1, name: "mainnet" }]
+	: [{ id: 56, name: "mainnet" }]
 
 export const TOKEN_OLD_TO_NEW_MULTIPLIER = BigNumber.from("100000000000000")
 
 export const REACT_APP_INFURA_ID = "3d22938fd7dd41b7af4197752f83e8a1"
 
-// export const REACT_APP_RPC_URL =
-// 	"wss://mainnet.infura.io/ws/v3/3d22938fd7dd41b7af4197752f83e8a1"
-export const INFURA_API_KEY = "9b1a725f03c94dbe9ebe0133561a3c99"
+ //export const REACT_APP_RPC_URL =
+ //	"wss://broken-falling-dawn.bsc.discover.quiknode.pro/5f7ab763b5292edff40c2001f90bc5f1bb30c5f0/"
+ export const INFURA_API_KEY = "9b1a725f03c94dbe9ebe0133561a3c99"
 export const REACT_APP_RPC_URL = useTestnet
 	? `https://sepolia.infura.io/v3/${INFURA_API_KEY}`
 	: //: "https://morning-wild-water.quiknode.pro/66011d2c6bdebc583cade5365086c8304c13366c/"
 	  //   "https://mainnet.infura.io/v3/3d22938fd7dd41b7af4197752f83e8a1"
-	  "https://eth-mainnet.alchemyapi.io/v2/ZxuaPQ9OfTqfnwJM4VTNGxgP4gMQDH07"
-
+	  "https://bsc-dataseed.binance.org"
+ 
 export const ADEX_RELAYER_HOST = useTestnet
 	? // ? "https://goerli-relayer.adex.network"
 	  "http://localhost:1934"
-	: "https://relayer.adex.network"
+	: "wss://broken-falling-dawn.bsc.discover.quiknode.pro/5f7ab763b5292edff40c2001f90bc5f1bb30c5f0/"
 // export const ADEX_RELAYER_HOST = "https://goerli-relayer.adex.network"
