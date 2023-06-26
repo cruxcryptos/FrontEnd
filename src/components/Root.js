@@ -123,8 +123,8 @@ export default function Root() {
 			<div className={classes.root} style={{textAlign:'center'}}>
 				<img src={logonew} alt='crux_logo'/>
 				<h1 style={{marginTop:'10%', textAlign:'center'}}>CRUX STAKING</h1>
-				<div style={{ width: "100% !important", textAlign:'center' }}>
-					<p> <strong>CRUX DAPP for staking is only available through Laptop/Desktop.</strong> </p>
+				<div style={{ width: "80% !important", textAlign:'center' }}>
+					<p> <strong>CRUX DAPP for staking is only available <br />through Laptop/Desktop.</strong> </p>
 				</div>
 				<p>Alternately, check our main website</p>
 				<a href="https://cruxcryptos.com" style={{color:'green', fontWeight:'800'}}>cruxcryptos.com </a>
