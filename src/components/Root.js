@@ -112,7 +112,7 @@ export default function Root() {
 	})
 
 	let mobile = false
-	if (window.innerWidth <= 800) {
+	if (window.innerWidth <= 1080) {
 		mobile = true
 	}
 
