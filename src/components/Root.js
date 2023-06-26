@@ -45,6 +45,7 @@ import clsx from "clsx"
 import { useTranslation, Trans } from "react-i18next"
 import cruxvideo from "./../components/CRUX_TEASE.mp4"
 import imagemfundo from "./army.png"
+import logonew from './../resources/crux_ai.png'
 
 function Alert(props) {
 	return <MuiAlert variant="filled" {...props} />
@@ -120,9 +121,10 @@ export default function Root() {
 	return mobile ? (
 		<>
 			<div className={classes.root} style={{textAlign:'center'}}>
-				<p style={{marginTop:'20%', textAlign:'center'}}>CRUX STAKING</p>
+				<img src={logonew} alt='crux_logo'/>
+				<h1 style={{marginTop:'10%', textAlign:'center'}}>CRUX STAKING</h1>
 				<div style={{ width: "100% !important", textAlign:'center' }}>
-					<p>CRUX UI for staking is only available through Laptop/Desktop. </p>
+					<p> <strong>CRUX DAPP for staking is only available through Laptop/Desktop.</strong> </p>
 				</div>
 				<p>Alternately, check our main website</p>
 				<a href="https://cruxcryptos.com" style={{color:'green', fontWeight:'800'}}>cruxcryptos.com </a>

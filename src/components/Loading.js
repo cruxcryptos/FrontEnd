@@ -18,11 +18,13 @@ export default function Loading() {
 			alignItems="center"
 		>
 			<Box mb={1}>
+				<div style={{width:'100%', textAlign:'center'}}>
 				<img
-					width="600px"
+					width="25%"
 					src={logoCRUX}
 					alt="crux-staking-logo"
 				></img>
+				</div>
 			</Box>
 			<Box width={200} style={{textAlign:'center'}}>
 				Loading DEX Stats...
