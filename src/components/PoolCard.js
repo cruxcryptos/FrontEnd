@@ -346,7 +346,6 @@ export default function PoolCard({
 							</Box>
 						)}
 						
-						{!temporarydisable ? (
 							<>
 						<Tooltip title={disabled ? disabledInfo : ""}>
 							<div>
@@ -367,7 +366,6 @@ export default function PoolCard({
 							</div>
 						</Tooltip>
 						<p></p>
-						{totalStakedUSDUser > 0 && (
 							<>
 								<p
 									style={{ width: "100%", height: "2px", marginBottom: "10px" }}
@@ -518,8 +516,7 @@ export default function PoolCard({
 									)}
 								</div>
 							</>
-						)}
-						</>) : <><div style={{width:'100%', fontWeight:'bold',textAlign:'center'}}><h2 style={{fontWeight:'800', color:'yellow'}}>Live 28th June</h2></div></>}
+						</> 
 					</Box>
 				</>
 			)}
