@@ -100,7 +100,7 @@ export default function PoolCard({
 }) {
 	const { t } = useTranslation()
 	const classes = useStyles()
-	const temporarydisable = true
+	const temporarydisable = false
 	return (
 		<Box
 			bgcolor={"background.card"}
