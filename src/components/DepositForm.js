@@ -39,6 +39,8 @@ import { BigNumber } from "ethers"
 import { ExternalAnchor } from "./Anchor"
 import { AmountText } from "./cardCommon"
 
+		/* global BigInt */
+		
 export default function DepositForm({
 	depositPool,
 	closeDialog,
@@ -64,6 +66,8 @@ export default function DepositForm({
 	const [unbondCommitment, setUnbondCommitment] = useState(null)
 	const [activeUnbondCommitments, setActiveUnbondCommitments] = useState(null)
 	const [maxAmount, setMaxAmount] = useState(0)
+	const [userCanStakeAmount, setUserCanStake] = useState(0)
+
 	const [maxAmountAvailableForRage, setMaxAmountAvailableForRage] = useState(0)
 	const [
 		maxAmountCurrentSharesValue,
@@ -88,7 +92,22 @@ export default function DepositForm({
 			newPoolStats,
 			stats.userBalance
 		)
+		//pool limit?
+		//newMaxAmount = user wallet
+		const poolNewTotalStaked = BigInt(newPoolStats.poolTotalStaked)
+		const poolNewMaxLimit = BigInt(newPoolStats.poolDepositsLimit)
+		let remainingtoStake =  poolNewMaxLimit - poolNewTotalStaked
+		let stakable = remainingtoStake
 
+		console.log("TotalStaked:" + newPoolStats.poolTotalStaked)
+		console.log("MaxLimit:" + newPoolStats.poolTotalStaked)
+		console.log("Remaining to stake:" + stakable)
+		if (newMaxAmount > remainingtoStake) {
+			setUserCanStake(remainingtoStake)
+		}
+		if (newMaxAmount <= remainingtoStake) {
+			setUserCanStake(newMaxAmount)
+		}
 
 		const newMaxAmountCurrentShareValue = getDepositActionMaxAmountCurrentShareValueByTypeAndPoolId(
 			actionType,
@@ -332,10 +351,10 @@ export default function DepositForm({
 							onChange={ev => {
 								onAmountChange(ev.target.value)
 							}}
-													helperText={t(
+							helperText={t(
 								dirtyInputs && amountErr ? amountErrText : "",
 								amountErrVals
-							)} 
+							)}
 						/>
 						<Box mt={1}>
 							<Button
@@ -343,13 +362,11 @@ export default function DepositForm({
 								size="small"
 								id={`new-${actionType}-form-max-amount-btn`}
 								onClick={() => {
-									onAmountChange(formatADX(maxAmount))
+									onAmountChange(formatADX(userCanStakeAmount))
 								}}
 							>
 								{t("common.maxAmountBtn", {
-									amount: formatADX(
-										maxAmount
-									),
+									amount: formatADX(userCanStakeAmount),
 									currency: "CRUX"
 								})}
 							</Button>
@@ -401,7 +418,9 @@ export default function DepositForm({
 									{t("deposits.lockupPeriodLabel")}:
 								</Typography>
 								<Typography variant="body1">
-									{t("deposits.lockupDays", { count: poolStats.poolLockTimeDeposit })}
+									{t("deposits.lockupDays", {
+										count: poolStats.poolLockTimeDeposit
+									})}
 								</Typography>
 							</Grid>
 						)}

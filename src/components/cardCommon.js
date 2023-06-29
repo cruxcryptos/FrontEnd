@@ -106,6 +106,7 @@ export function CardRow({
 	fontSize,
 	color,
 	justify,
+	textsucess = false,
 	isAmountText,
 	multilineLinesAmounts,
 	...restBox
@@ -130,6 +131,8 @@ export function CardRow({
 							fontSize={fontSize}
 							multiline={multilineLinesAmounts}
 						/>
+					) : textsucess ? (
+						<span style={{ color: "#4BB543" , fontWeight:'bold'}}>{text}</span>
 					) : (
 						text
 					)}

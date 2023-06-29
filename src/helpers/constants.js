@@ -1,6 +1,7 @@
 import { BigNumber, utils } from "ethers"
 import walletconnectLogo from "../walletconnect-logo.svg"
 import metamaskLogo from "../metamask-fox.svg"
+import TrustLogo from "../TWT.svg"
 import trezorLogo from "../trezor.svg"
 // import ledgerLogo from "../ledger.png"
 
@@ -156,11 +157,16 @@ export const METAMASK = "Metamask"
 export const WALLET_CONNECT = "WalletConnect"
 export const TREZOR = "Trezor"
 export const LEDGER = "Ledger"
+export const TRUSTWALLET = "TrustWallet"
 
 export const Wallets = [
 	{
 		name: METAMASK,
 		icon: metamaskLogo
+	},
+	{
+		name: TRUSTWALLET,
+		icon: TrustLogo
 	},
 	{
 		name: WALLET_CONNECT,

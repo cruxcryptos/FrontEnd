@@ -96,6 +96,7 @@ export default function PoolCard({
 	startStakingDate,
 	totalCurrentPendingRewards,
 	extraData = [],
+	poolfilled = false,
 	statsPath
 }) {
 	const { t } = useTranslation()
@@ -141,12 +142,13 @@ export default function PoolCard({
 						<CardRow
 							color="text.main"
 							fontWeight={"fontWeightRegular"}
-							fontSize={14}
+							fontSize={16}
 							text={
 								percentageFilledPool
 									? percentageFilledPool + "% Filled"
 									: 0 + "% Filled"
 							}
+							textsucess={percentageFilledPool >= 100 ? true : false}
 							// infoText={t('common.totalStaked')}
 							justify="center"
 						/>{" "}
@@ -345,11 +347,12 @@ export default function PoolCard({
 								</ButtonWithLink>
 							</Box>
 						)}
-						
-							<>
-						<Tooltip title={disabled ? disabledInfo : ""}>
-							<div>
-								{actionBtn || (
+						<>
+							<Tooltip title={disabled ? disabledInfo : ""}>
+								<div style={{textAlign:'center'}}>
+									{
+								poolfilled ? <>
+								{
 									<Button
 										id={`stake-pool-${id}`}
 										fullWidth
@@ -358,14 +361,32 @@ export default function PoolCard({
 										color="secondary"
 										size="large"
 										onClick={onStakeBtnClick}
-										disabled={disabled}
+										disabled={true}
 									>
-										{t("common.stake")}
+										Pool Filled.
 									</Button>
-								)}
-							</div>
-						</Tooltip>
-						<p></p>
+								}
+								</>
+								 : (<>
+								 {actionBtn || (
+									 <Button
+										 id={`stake-pool-${id}`}
+										 fullWidth
+										 variant="contained"
+										 disableElevation
+										 color="secondary"
+										 size="large"
+										 onClick={onStakeBtnClick}
+										 disabled={disabled}
+									 >
+										 {t("common.stake")}
+									 </Button>
+								 )}
+								 </>)}
+									
+								</div>
+							</Tooltip>
+							<p></p>
 							<>
 								<p
 									style={{ width: "100%", height: "2px", marginBottom: "10px" }}
@@ -516,7 +537,7 @@ export default function PoolCard({
 									)}
 								</div>
 							</>
-						</> 
+						</>
 					</Box>
 				</>
 			)}

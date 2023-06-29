@@ -8,7 +8,7 @@ import {
 	Avatar,
 	ListItemIcon
 } from "@material-ui/core"
-import { Wallets, METAMASK } from "../helpers/constants"
+import { Wallets, METAMASK, TRUSTWALLET } from "../helpers/constants"
 import { toIdAttributeString } from "../helpers/formatting"
 import { useTranslation } from "react-i18next"
 
@@ -33,7 +33,7 @@ export default function ChooseWallet({
 				{Wallets.map(({ icon, name = "", extraLabel }) => (
 					<ListItem
 						id={`connect-wallet-select-${toIdAttributeString(name)}`}
-						disabled={disableNonBrowserWallets && name !== METAMASK}
+						disabled={disableNonBrowserWallets && name !== METAMASK  && name !== TRUSTWALLET} 
 						button
 						onClick={() => handleListItemClick(name)}
 						key={name}

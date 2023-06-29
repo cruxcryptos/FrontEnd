@@ -24,6 +24,7 @@ import Jazzicon, { jsNumberForAddress } from "react-jazzicon"
 import { formatAddress } from "../helpers/formatting"
 import {
 	METAMASK,
+	TRUSTWALLET,
 	Wallets
 	// WALLET_CONNECT
 } from "../helpers/constants"
@@ -116,7 +117,7 @@ export const Wallet = () => {
 								classes={{ root: classes.chipRoot, icon: classes.chipIcon }}
 								icon={
 									account ? (
-										chosenWalletType.name === METAMASK ? (
+										chosenWalletType.name === METAMASK || chosenWalletType.name === TRUSTWALLET ? (
 											<Icon>
 												<Jazzicon
 													diameter={26}

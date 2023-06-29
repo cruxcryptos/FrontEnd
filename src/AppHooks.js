@@ -14,6 +14,7 @@ import { getSigner } from "./ethereum"
 import {
 	WALLET_CONNECT,
 	METAMASK,
+	TRUSTWALLET,
 	TREZOR,
 	LEDGER,
 	SUPPORTED_CHAINS,
@@ -41,6 +42,7 @@ const IDLE_TIMEOUT = IDLE_TIMEOUT_MINUTES * 60 * 1000
 
 const connectorsByName = {
 	[METAMASK]: injected,
+	[TRUSTWALLET]: injected,
 	[WALLET_CONNECT]: walletconnect,
 	[TREZOR]: trezor,
 	[LEDGER]: ledger

@@ -147,7 +147,7 @@ const Pools = () => {
 						lockupPeriod={poolLockTimeDepositSmall + ` Days`}
 						endStakingDate={EndStakingSmallPool}
 						startStakingDate={StartStakingSmallPool}
-						totalStakedADXuser={`${formatADXPretty(SmallPoolTotalStaked)} CRUX`}
+						totalStakedADXuser={`${formatADXPretty(SmallPoolUserTotalStaked)} CRUX`}
 						totalStakedUSDUser={`${getADXInUSDFormatted(
 							prices,
 							SmallPoolUserTotalStaked
@@ -175,6 +175,7 @@ const Pools = () => {
 								extrInfo: ""
 							}
 						]}
+						poolfilled={SmallPoolPercentageFilled >= 100 ? true : false }
 						actionBtn={
 							<DepositsDialog
 								fullWidth
@@ -247,6 +248,8 @@ const Pools = () => {
 								yield: (loyaltyPoolAPY / 365).toFixed(4)
 							})
 						]}
+						
+						poolfilled={loyaltyPoolPercentageFilled >= 100 ? true : false }
 						loading={!loyaltyPoolStats.loaded}
 						disabled={!canStake}
 						UserEndStakeLock={UserEndLockDate}
@@ -359,6 +362,7 @@ const Pools = () => {
 								yield: (LongPoolAPY / 365).toFixed(4)
 							})
 						]}
+						poolfilled={LongPoolPercentageFilled >= 100 ? true : false }
 						loading={!longPoolStats.loaded}
 						disabled={!canStake}
 						disabledInfo={t("pools.connectWalletToDeposit")}
@@ -367,7 +371,7 @@ const Pools = () => {
 						lockupPeriod={poolLockTimeDepositLong + ` Days`}
 						endStakingDate={EndStakingLongPool}
 						startStakingDate={StartStakingLongPool}
-						totalStakedADXuser={`${formatADXPretty(LongPoolTotalStaked)} CRUX`}
+						totalStakedADXuser={`${formatADXPretty(LongPoolUserTotalStaked)} CRUX`}
 						totalStakedUSDUser={`${getADXInUSDFormatted(
 							prices,
 							LongPoolUserTotalStaked
