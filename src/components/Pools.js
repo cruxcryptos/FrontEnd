@@ -92,7 +92,7 @@ const Pools = () => {
 	const SmallMidTermPoolPercentageFilled =
 	smallMidTermPoolStats.PercentageFilled || 0
 	const SmallMidTermPoolUserTotalStaked =
-	smallMidTermPoolStats.poolTotalStakedUser
+	smallMidTermPoolStats.poolTotalStakedUser || 0
 	const SmallMidTermPoolTotalCurrentRewards =
 	smallMidTermPoolStats.poolCurrentRewardsUser
 	const EndStakingSmallMidTermPool = smallMidTermPoolStats.endPeriod || "0"
@@ -102,7 +102,7 @@ const Pools = () => {
 	smallMidTermPoolStats.poolLockTimeDeposit || "0"
 
 	const SmallPoolPoolAPY = smallPoolStats.currentAPY || 0
-	const SmallPoolTotalStaked = smallPoolStats.poolTotalStaked
+	const SmallPoolTotalStaked = smallPoolStats.poolTotalStaked || 0
 	const SmallPoolPercentageFilled = smallPoolStats.PercentageFilled || 0
 	const SmallPoolUserTotalStaked = smallPoolStats.poolTotalStakedUser
 	const SmallPoolUserTotalCurrentRewards = smallPoolStats.poolCurrentRewardsUser
@@ -147,11 +147,11 @@ const Pools = () => {
 						percentageFilledPool={SmallMidTermPoolPercentageFilled}
 						name={"C-Force"}
 						totalStakedADX={`${formatADXPretty(
-							SmallMidTermPoolUserTotalStaked
+							SmallMidTermPoolTotalStaked
 						)} CRUX`}
 						totalStakedUSD={`${getADXInUSDFormatted(
 							prices,
-							SmallMidTermPoolUserTotalStaked
+							SmallMidTermPoolTotalStaked
 						)}`}
 						currentAPY={`${SmallMidTermPoolAPY.toFixed(2)} %`}
 						weeklyYield={`${(SmallMidTermPoolAPY / (365 / 7)).toFixed(4)} %`}
@@ -170,11 +170,11 @@ const Pools = () => {
 						endStakingDate={EndStakingSmallMidTermPool}
 						startStakingDate={StartStakingSmallMidTermPool}
 						totalStakedADXuser={`${formatADXPretty(
-							SmallMidTermPoolTotalStaked
+							SmallMidTermPoolUserTotalStaked
 						)} CRUX`}
 						totalStakedUSDUser={`${getADXInUSDFormatted(
 							prices,
-							SmallMidTermPoolTotalStaked
+							SmallMidTermPoolUserTotalStaked
 						)}`}
 						totalCurrentPendingRewards={
 							SmallMidTermPoolTotalCurrentRewards

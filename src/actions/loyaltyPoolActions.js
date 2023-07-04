@@ -266,6 +266,7 @@ export async function loadSmallMidData(addr) {
 			CruxSmallMidTermStakeContract.fixedLockDays()
 		])
 
+
 		let PercentageFilled = (
 			(100 * poolTotalStaked) /
 			poolDepositsLimit
