@@ -225,6 +225,7 @@ export async function loadUserStats(chosenWalletType, prices) {
 		const nonStakedBalance = userWalletBalance
 
 		totalStaked = totalStaked.add(totalStakedLong)
+		totalStaked = totalStaked.add(totalStakedSmallMid)
 		totalStaked = totalStaked.add(totalStakedSmall)
 
 		const totalBalanceADX = nonStakedBalance
@@ -239,6 +240,7 @@ export async function loadUserStats(chosenWalletType, prices) {
 			totalStaked,
 			totalStakedLong,
 			totalStakedSmall,
+			totalStakedSmallMid,
 			totalBalanceADX, // Wallet + Stake + Reward
 			// canExecuteGasless,
 			// canExecuteGaslessError,
