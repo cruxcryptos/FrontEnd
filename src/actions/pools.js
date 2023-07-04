@@ -12,7 +12,9 @@ import {
 	onSmallPoolWithdraw,
 	onLongPoolDeposit,
 	onLongPoolClaimRewards,
-	onLongPoolWithdraw
+	onLongPoolWithdraw,
+	onSmallMidDeposit,
+	onSmallMidClaimRewards
 } from "./loyaltyPoolActions"
 import { claimRewards } from "./actions"
 import { fetchJSON } from "../helpers/fetch"
@@ -47,6 +49,9 @@ export const getDepositActionByPoolId = poolId => {
 	if (poolId === DEPOSIT_POOLS[2].id) {
 		return onLongPoolDeposit
 	}
+	if (poolId === DEPOSIT_POOLS[3].id) {
+		return onSmallMidDeposit
+	}
 	throw new TranslatableError("errors.noActionForPool", {
 		actionName: "deposit",
 		poolId
@@ -63,6 +68,9 @@ export const getClaimRewardsActionByPoolId = poolId => {
 	if (poolId === DEPOSIT_POOLS[2].id) {
 		return onLongPoolClaimRewards
 	}
+	if (poolId === DEPOSIT_POOLS[3].id) {
+		return onSmallMidClaimRewards
+	}
 	throw new TranslatableError("errors.noActionForPool", {
 		actionName: "claimrewards",
 		poolId
@@ -78,6 +86,9 @@ export const getWithdrawActionByPoolId = poolId => {
 	}
 	if (poolId === DEPOSIT_POOLS[2].id) {
 		return onLongPoolWithdraw
+	}
+	if (poolId === DEPOSIT_POOLS[3].id) {
+		return onSmallPoolWithdraw
 	}
 	throw new TranslatableError("errors.noActionForPool", {
 		actionName: "withdraw",
@@ -131,6 +142,9 @@ export const getPoolStatsByPoolId = (stats, poolId) => {
 	}
 	if (poolId === DEPOSIT_POOLS[2].id) {
 		return stats.longPoolStats
+	}
+	if (poolId === DEPOSIT_POOLS[3].id) {
+		return stats.smallMidTermPoolStats
 	}
 	if (poolId === POOLS[0].id) {
 		return stats.loyaltyPoolStats

@@ -25,6 +25,7 @@ import { ReactComponent as LINKIcon } from "./../resources/chain-link-logo.svg"
 import PoolOneImage from "./../resources/imagery/pool_crux_a.png"
 import PoolTwoImage from "./../resources/imagery/pool_crux_b.png"
 import PoolThreeImage from "./../resources/imagery/pool_crux_c.png"
+import PoolFourImage from "./../resources/imagery/pool_crux_d.png"
 import SectionHeader from "./SectionHeader"
 import { DEPOSIT_POOLS } from "../helpers/constants"
 import StarsIcon from "@material-ui/icons/Stars"
@@ -48,6 +49,7 @@ const WithdrawRewardDialog = WithDialog(WithdrawRewardForm)
 const LOYALTY_POOL = DEPOSIT_POOLS[0]
 const SMALL_POOL = DEPOSIT_POOLS[1]
 const LONG_POOL = DEPOSIT_POOLS[2]
+const SMALL_MID_TERM_POOL = DEPOSIT_POOLS[3]
 
 const useStyles = makeStyles(theme => {
 	return {
@@ -64,12 +66,17 @@ const Pools = () => {
 	const classes = useStyles()
 	const { t } = useTranslation()
 	const { stats, chosenWalletType, prices } = useContext(AppContext)
-	const { loyaltyPoolStats, smallPoolStats, longPoolStats } = stats
+	const {
+		loyaltyPoolStats,
+		smallPoolStats,
+		longPoolStats,
+		smallMidTermPoolStats
+	} = stats
 
 	const canStake = !!chosenWalletType.name && !!stats.connectedWalletAddress
 	const justifyCenter = useMediaQuery(theme => theme.breakpoints.down("xs"))
 
-	const loyaltyPoolAPY = loyaltyPoolStats.currentAPY
+	const loyaltyPoolAPY = loyaltyPoolStats.currentAPY || 0
 	const loyaltyPoolTotalStaked = loyaltyPoolStats.poolTotalStaked
 	const loyaltyPoolPercentageFilled = loyaltyPoolStats.PercentageFilled || 0
 	const loyaltyPoolUserTotalStaked = loyaltyPoolStats.poolTotalStakedUser
@@ -80,7 +87,21 @@ const Pools = () => {
 	const UserEndLockDate = loyaltyPoolStats.endUserLockDate
 	const poolLockTimeDeposit = loyaltyPoolStats.poolLockTimeDeposit || "0"
 
-	const SmallPoolPoolAPY = smallPoolStats.currentAPY
+	const SmallMidTermPoolAPY = smallMidTermPoolStats.currentAPY || 0
+	const SmallMidTermPoolTotalStaked = smallMidTermPoolStats.poolTotalStaked
+	const SmallMidTermPoolPercentageFilled =
+	smallMidTermPoolStats.PercentageFilled || 0
+	const SmallMidTermPoolUserTotalStaked =
+	smallMidTermPoolStats.poolTotalStakedUser
+	const SmallMidTermPoolTotalCurrentRewards =
+	smallMidTermPoolStats.poolCurrentRewardsUser
+	const EndStakingSmallMidTermPool = smallMidTermPoolStats.endPeriod || "0"
+	const StartStakingSmallMidTermPool = smallMidTermPoolStats.startPeriod || "0"
+	const UserEndLockDateSmallMidTermPool = smallMidTermPoolStats.endUserLockDate
+	const poolLockTimeDepositSmallMidTermPool =
+	smallMidTermPoolStats.poolLockTimeDeposit || "0"
+
+	const SmallPoolPoolAPY = smallPoolStats.currentAPY || 0
 	const SmallPoolTotalStaked = smallPoolStats.poolTotalStaked
 	const SmallPoolPercentageFilled = smallPoolStats.PercentageFilled || 0
 	const SmallPoolUserTotalStaked = smallPoolStats.poolTotalStakedUser
@@ -90,7 +111,7 @@ const Pools = () => {
 	const UserEndLockDateSmallPool = smallPoolStats.endUserLockDate
 	const poolLockTimeDepositSmall = smallPoolStats.poolLockTimeDeposit || "0"
 
-	const LongPoolAPY = longPoolStats.currentAPY
+	const LongPoolAPY = longPoolStats.currentAPY || 0
 	const LongPoolTotalStaked = longPoolStats.poolTotalStaked
 	const LongPoolPercentageFilled = longPoolStats.PercentageFilled || 0
 	const LongPoolUserTotalStaked = longPoolStats.poolTotalStakedUser
@@ -112,10 +133,122 @@ const Pools = () => {
 					alignItems="stretch"
 					justifyContent={justifyCenter ? "center" : "flex-start"}
 				>
+					{/* SmallMidTermPool POOL */}
+					<PoolCard
+						comingSoon={false}
+						id="small-pool"
+						icon={
+							<img
+								src={PoolFourImage}
+								style={{ width: "100%" }}
+								alt="crux_pool_d"
+							></img>
+						}
+						percentageFilledPool={SmallMidTermPoolPercentageFilled}
+						name={"C-Force"}
+						totalStakedADX={`${formatADXPretty(
+							SmallMidTermPoolUserTotalStaked
+						)} CRUX`}
+						totalStakedUSD={`${getADXInUSDFormatted(
+							prices,
+							SmallMidTermPoolUserTotalStaked
+						)}`}
+						currentAPY={`${SmallMidTermPoolAPY.toFixed(2)} %`}
+						weeklyYield={`${(SmallMidTermPoolAPY / (365 / 7)).toFixed(4)} %`}
+						weeklyYieldInfo={[
+							t("pools.currentDailyYield", {
+								yield: (SmallMidTermPoolAPY / 365).toFixed(4)
+							})
+						]}
+						UserEndStakeLock={UserEndLockDateSmallMidTermPool}
+						loading={!smallMidTermPoolStats.loaded}
+						disabled={!canStake}
+						disabledInfo={t("pools.connectWalletToDeposit")}
+						lockupPeriodTitle={t("common.unbondPeriod")}
+						lockupPeriodInfo={t("common.noUnbondPeriod")}
+						lockupPeriod={poolLockTimeDepositSmallMidTermPool + ` Days`}
+						endStakingDate={EndStakingSmallMidTermPool}
+						startStakingDate={StartStakingSmallMidTermPool}
+						totalStakedADXuser={`${formatADXPretty(
+							SmallMidTermPoolTotalStaked
+						)} CRUX`}
+						totalStakedUSDUser={`${getADXInUSDFormatted(
+							prices,
+							SmallMidTermPoolTotalStaked
+						)}`}
+						totalCurrentPendingRewards={
+							SmallMidTermPoolTotalCurrentRewards
+								? `${formatADXPretty(SmallMidTermPoolTotalCurrentRewards)} CRUX`
+								: "0 CRUX"
+						}
+						totalRewardsUsd={`${getADXInUSDFormatted(
+							prices,
+							SmallMidTermPoolTotalCurrentRewards
+						)}`}
+						extraData={[
+							{
+								id: "loyalty-pool-deposits-limit",
+								title: t("pools.totalDepositsLimit"),
+								titleInfo: "",
+								normalValue: `${formatADXPretty(
+									smallMidTermPoolStats.poolDepositsLimit
+								)} CRUX`,
+								importantValue: "",
+								valueInfo: "",
+								extra: "",
+								extrInfo: ""
+							}
+						]}
+						poolfilled={SmallMidTermPoolPercentageFilled >= 100 ? true : false}
+						actionBtn={
+							<DepositsDialog
+								fullWidth
+								id="loyalty-pool-deposit-form-card"
+								title={t("common.addNewDeposit")}
+								btnLabel={t("common.deposit")}
+								color="secondary"
+								size="large"
+								variant="contained"
+								disabled={!canStake}
+								depositPool={SMALL_MID_TERM_POOL.id}
+								actionType={DEPOSIT_ACTION_TYPES.deposit}
+							/>
+						}
+						actionBtnWithdraw={
+							<WithdrawDialog
+								fullWidth
+								id="loyalty-pool-withdraw-form-card"
+								title="Unstake $CRUX"
+								btnLabel="Withdraw All"
+								color="secondary"
+								size="large"
+								variant="contained"
+								userTotalStaked={SmallMidTermPoolTotalStaked}
+								disabled={!canStake}
+								depositPool={SMALL_MID_TERM_POOL.id}
+								actionType={DEPOSIT_ACTION_TYPES.withdraw}
+							/>
+						}
+						actionBtnClaimRewards={
+							<WithdrawRewardDialog
+								fullWidth
+								id="loyalty-pool-claimrewards-form-card"
+								title="Claim Staking Rewards"
+								btnLabel="Claim Rewards"
+								disabled={SmallMidTermPoolTotalCurrentRewards > 1 ? false : true}
+								color="secondary"
+								size="large"
+								variant="contained"
+								depositPool={SMALL_MID_TERM_POOL.id}
+								currentRewards={SmallMidTermPoolTotalCurrentRewards}
+								actionType={DEPOSIT_ACTION_TYPES.claimrewards}
+							/>
+						}
+					/>
+
 					{/* SMALL STAKE POOL */}
 					<PoolCard
-					
-					comingSoon={false}
+						comingSoon={false}
 						id="small-pool"
 						icon={
 							<img
@@ -147,7 +280,9 @@ const Pools = () => {
 						lockupPeriod={poolLockTimeDepositSmall + ` Days`}
 						endStakingDate={EndStakingSmallPool}
 						startStakingDate={StartStakingSmallPool}
-						totalStakedADXuser={`${formatADXPretty(SmallPoolUserTotalStaked)} CRUX`}
+						totalStakedADXuser={`${formatADXPretty(
+							SmallPoolUserTotalStaked
+						)} CRUX`}
 						totalStakedUSDUser={`${getADXInUSDFormatted(
 							prices,
 							SmallPoolUserTotalStaked
@@ -175,7 +310,7 @@ const Pools = () => {
 								extrInfo: ""
 							}
 						]}
-						poolfilled={SmallPoolPercentageFilled >= 100 ? true : false }
+						poolfilled={SmallPoolPercentageFilled >= 100 ? true : false}
 						actionBtn={
 							<DepositsDialog
 								fullWidth
@@ -224,8 +359,7 @@ const Pools = () => {
 
 					{/* MIDSTAKEPOOL */}
 					<PoolCard
-					
-					comingSoon={false}
+						comingSoon={false}
 						id="loyalty-pool"
 						icon={
 							<img
@@ -248,8 +382,7 @@ const Pools = () => {
 								yield: (loyaltyPoolAPY / 365).toFixed(4)
 							})
 						]}
-						
-						poolfilled={loyaltyPoolPercentageFilled >= 100 ? true : false }
+						poolfilled={loyaltyPoolPercentageFilled >= 100 ? true : false}
 						loading={!loyaltyPoolStats.loaded}
 						disabled={!canStake}
 						UserEndStakeLock={UserEndLockDate}
@@ -338,7 +471,6 @@ const Pools = () => {
 					{/* LONG STAKE POOL */}
 					<PoolCard
 						id="long-pool"
-						
 						comingSoon={false}
 						icon={
 							<img
@@ -362,7 +494,7 @@ const Pools = () => {
 								yield: (LongPoolAPY / 365).toFixed(4)
 							})
 						]}
-						poolfilled={LongPoolPercentageFilled >= 100 ? true : false }
+						poolfilled={LongPoolPercentageFilled >= 100 ? true : false}
 						loading={!longPoolStats.loaded}
 						disabled={!canStake}
 						disabledInfo={t("pools.connectWalletToDeposit")}
@@ -371,7 +503,9 @@ const Pools = () => {
 						lockupPeriod={poolLockTimeDepositLong + ` Days`}
 						endStakingDate={EndStakingLongPool}
 						startStakingDate={StartStakingLongPool}
-						totalStakedADXuser={`${formatADXPretty(LongPoolUserTotalStaked)} CRUX`}
+						totalStakedADXuser={`${formatADXPretty(
+							LongPoolUserTotalStaked
+						)} CRUX`}
 						totalStakedUSDUser={`${getADXInUSDFormatted(
 							prices,
 							LongPoolUserTotalStaked

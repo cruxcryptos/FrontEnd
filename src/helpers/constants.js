@@ -45,6 +45,12 @@ export const CRUX_SMALLPOOL_STAKEADDRESS = useTestnet
 	: "0xdd1a6E0D528CFB5Dda31408e0C30a9c547B01C53"
 //CRUX SMALL POOL STAKE ADDRESS
 
+//CRUX SMALL POOL STAKE ADDRESS
+export const CRUX_SMALL_MIDTERM_STAKEADDRESS = useTestnet
+	? "0x56dFD31Bb2EbD581625140c994536D3dF2Df015C"
+	: "0x56dFD31Bb2EbD581625140c994536D3dF2Df015C"
+//CRUX SMALL POOL STAKE ADDRESS
+
 //CRUX MID POOL STAKE ADDRESS
 export const CRUX_MIDPOOL_STAKEADDRESS = useTestnet
 	? "0x506d7dcA670F0E110E31428B79F7a0Cef9eBf10A"
@@ -107,13 +113,13 @@ export const DEPOSIT_POOLS = [
 		rewardPolicy: "pools.loPoRewardPolicy",
 		slashPolicy: "pools.loPoSlashPolicy",
 		url:
-			"https://bscscan.com/address/0xdd1a6E0D528CFB5Dda31408e0C30a9c547B01C53",
+			"https://bscscan.com/address/0x5178f1Def5B0a1CAEffB5767D0ae2c4Bb7cC1d6B",
 		confirmationLabel: null,
 		confirmationUrl: "https://bscscan.com/tx//"
 	},
 	{
 		label: "common.loPo",
-		id: utils.id("deposit:0xc0959377dccb4d95Df6d275051b7Bf447155FD3B"),
+		id: utils.id("deposit:0x9d8E7fAF9e70C5c3E64E99e0E4Ce5cc4d261b135"),
 		selectable: true,
 		minStakingAmount: "0.0",
 		rewardPolicy: "pools.loPoRewardPolicy",
@@ -131,7 +137,19 @@ export const DEPOSIT_POOLS = [
 		rewardPolicy: "pools.loPoRewardPolicy",
 		slashPolicy: "pools.loPoSlashPolicy",
 		url:
-			"https://bscscan.com/address/0x7E9d1E90403DB922445C868FbC34818024B8C41A",
+			"https://bscscan.com/address/0xAd6e2B74FA0e6e1EAF5Bba55b6dfFc07E9e922BE",
+		confirmationLabel: null,
+		confirmationUrl: "https://bscscan.com/tx//"
+	},
+	{
+		label: "common.loPo",
+		id: utils.id("deposit:0x56dFD31Bb2EbD581625140c994536D3dF2Df015C"),
+		selectable: true,
+		minStakingAmount: "0.0",
+		rewardPolicy: "pools.loPoRewardPolicy",
+		slashPolicy: "pools.loPoSlashPolicy",
+		url:
+			"https://bscscan.com/address/0x56dFD31Bb2EbD581625140c994536D3dF2Df015C",
 		confirmationLabel: null,
 		confirmationUrl: "https://bscscan.com/tx//"
 	}
@@ -144,6 +162,8 @@ export const iconByPoolId = ({ poolId, id }) => {
 		case DEPOSIT_POOLS[1].id:
 			return BalancerIcon
 		case DEPOSIT_POOLS[2].id:
+			return BalancerIcon
+		case DEPOSIT_POOLS[3].id:
 			return BalancerIcon
 		case "adex-staking-pool":
 		case POOLS[0].id:
@@ -199,15 +219,15 @@ export const TOKEN_OLD_TO_NEW_MULTIPLIER = BigNumber.from("100000000000000")
 
 export const REACT_APP_INFURA_ID = "3d22938fd7dd41b7af4197752f83e8a1"
 
- //export const REACT_APP_RPC_URL =
- //	"wss://broken-falling-dawn.bsc.discover.quiknode.pro/5f7ab763b5292edff40c2001f90bc5f1bb30c5f0/"
- export const INFURA_API_KEY = "9b1a725f03c94dbe9ebe0133561a3c99"
+//export const REACT_APP_RPC_URL =
+//	"wss://broken-falling-dawn.bsc.discover.quiknode.pro/5f7ab763b5292edff40c2001f90bc5f1bb30c5f0/"
+export const INFURA_API_KEY = "9b1a725f03c94dbe9ebe0133561a3c99"
 export const REACT_APP_RPC_URL = useTestnet
 	? `https://sepolia.infura.io/v3/${INFURA_API_KEY}`
 	: //: "https://morning-wild-water.quiknode.pro/66011d2c6bdebc583cade5365086c8304c13366c/"
 	  //   "https://mainnet.infura.io/v3/3d22938fd7dd41b7af4197752f83e8a1"
 	  "https://bsc-dataseed.binance.org"
- 
+
 export const ADEX_RELAYER_HOST = useTestnet
 	? // ? "https://goerli-relayer.adex.network"
 	  "http://localhost:1934"

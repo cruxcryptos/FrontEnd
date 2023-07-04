@@ -14,7 +14,8 @@ import {
 	ZERO,
 	CRUX_MIDPOOL_STAKEADDRESS,
 	CRUX_SMALLPOOL_STAKEADDRESS,
-	CRUX_LARGEPOOL_STAKEADDRESS
+	CRUX_LARGEPOOL_STAKEADDRESS,
+	CRUX_SMALL_MIDTERM_STAKEADDRESS
 } from "../helpers/constants"
 import { getBondId } from "../helpers/bonds"
 import { getUserIdentity } from "../helpers/identity"
@@ -23,6 +24,7 @@ import {
 	loadUserLoyaltyPoolsStats,
 	loadUserSmallPoolStats,
 	loadUserLongPoolStats,
+	loadUserSmallMidPoolStats,
 	LOYALTY_POOP_EMPTY_STATS
 } from "./loyaltyPoolActions"
 import { executeOnIdentity, toChannelTuple } from "./common"
@@ -51,6 +53,12 @@ const CruxSmallPoolStakeContract = new Contract(
 //CRUX MID STAKER
 const CruxLongPoolStakeContract = new Contract(
 	CRUX_LARGEPOOL_STAKEADDRESS,
+	CRUX_MIDPOOL_ABI,
+	defaultProvider
+)
+//CRUX small mid  STAKER
+const CruxSmallMidTermStakeContract = new Contract(
+	CRUX_SMALL_MIDTERM_STAKEADDRESS,
 	CRUX_MIDPOOL_ABI,
 	defaultProvider
 )
@@ -100,6 +108,7 @@ export const EMPTY_STATS = {
 	loyaltyPoolStats: LOYALTY_POOP_EMPTY_STATS,
 	smallPoolStats: LOYALTY_POOP_EMPTY_STATS,
 	longPoolStats: LOYALTY_POOP_EMPTY_STATS,
+	smallMidTermPoolStats: LOYALTY_POOP_EMPTY_STATS,
 	tomPoolStats: POOL_EMPTY_STATS,
 	prices: {},
 	legacyTokenBalance: ZERO,
@@ -133,13 +142,15 @@ export async function getPoolStats(pool, prices) {
 	const totalStake = await Token.balanceOf(CRUX_MIDPOOL_STAKEADDRESS)
 	const totalStakeSmallPool = await Token.balanceOf(CRUX_SMALLPOOL_STAKEADDRESS)
 	const totalStakeLongPool = await Token.balanceOf(CRUX_LARGEPOOL_STAKEADDRESS)
+	const totalStakeMidTermPool = await Token.balanceOf(CRUX_SMALL_MIDTERM_STAKEADDRESS)
 
 	const stats = {
 		...POOL_EMPTY_STATS,
 		loaded: true,
 		totalStake,
 		totalStakeSmallPool,
-		totalStakeLongPool
+		totalStakeLongPool,
+		totalStakeMidTermPool
 	}
 
 	return stats
@@ -151,6 +162,7 @@ export async function loadUserStats(chosenWalletType, prices) {
 	let totalStaked = 0
 	let totalStakedSmall = 0
 	let totalStakedLong = 0
+	let totalStakedSmallMid = 0
 
 	if (addr.length > 2) {
 		const identityAddr = getUserIdentity(addr).addr
@@ -160,11 +172,13 @@ export async function loadUserStats(chosenWalletType, prices) {
 		totalStaked = await CruxMidpoolStakeContract.amountStaked(addr)
 		totalStakedSmall = await CruxSmallPoolStakeContract.amountStaked(addr)
 		totalStakedLong = await CruxLongPoolStakeContract.amountStaked(addr)
+		totalStakedSmallMid = await CruxSmallMidTermStakeContract.amountStaked(addr)
 
 		if (!chosenWalletType.name) {
 			const loyaltyPoolStats = await loadUserLoyaltyPoolsStats()
 			const smallPoolStats = await loadUserSmallPoolStats()
 			const longPoolStats = await loadUserLongPoolStats()
+			const smallMidTermPoolStats = await loadUserSmallMidPoolStats()
 			//const poolStats = await loadActivePoolsStats(prices)
 
 			return {
@@ -172,6 +186,7 @@ export async function loadUserStats(chosenWalletType, prices) {
 				loyaltyPoolStats,
 				smallPoolStats,
 				longPoolStats,
+				smallMidTermPoolStats,
 				prices,
 				loaded: true
 			}
@@ -189,6 +204,7 @@ export async function loadUserStats(chosenWalletType, prices) {
 			loyaltyPoolStats,
 			smallPoolStats,
 			longPoolStats,
+			smallMidTermPoolStats,
 			migrationBonusPromilles = BigNumber.from(1048),
 			userWalletToIdentityADXAllowance,
 			latestTransactionsCount,
@@ -198,6 +214,7 @@ export async function loadUserStats(chosenWalletType, prices) {
 			loadUserLoyaltyPoolsStats(addr),
 			loadUserSmallPoolStats(addr),
 			loadUserLongPoolStats(addr),
+			loadUserSmallMidPoolStats(addr),
 			//StakingMigrator.WITH_BONUS_PROMILLES(), // TODO: uncomment when migrator deployed
 			Token.allowance(addr, identityAddr),
 			// NOTE: getTransactionCount does not work correct with signer, because "pending" may not be supported by signers provider
@@ -228,6 +245,7 @@ export async function loadUserStats(chosenWalletType, prices) {
 			loyaltyPoolStats,
 			smallPoolStats,
 			longPoolStats,
+			smallMidTermPoolStats,
 			prices,
 			userWalletToIdentityADXAllowance
 		}

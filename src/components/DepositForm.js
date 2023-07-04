@@ -96,12 +96,12 @@ export default function DepositForm({
 		//newMaxAmount = user wallet
 		const poolNewTotalStaked = BigInt(newPoolStats.poolTotalStaked)
 		const poolNewMaxLimit = BigInt(newPoolStats.poolDepositsLimit)
-		let remainingtoStake =  poolNewMaxLimit - poolNewTotalStaked
+		let remainingtoStake = poolNewTotalStaked > 0 ?  poolNewMaxLimit - poolNewTotalStaked : poolNewMaxLimit
 		let stakable = remainingtoStake
 
+		console.log("MaxLimit:" + newPoolStats.poolNewMaxLimit)
 		console.log("TotalStaked:" + newPoolStats.poolTotalStaked)
-		console.log("MaxLimit:" + newPoolStats.poolTotalStaked)
-		console.log("Remaining to stake:" + stakable)
+		console.log("Remaining to stake:" + remainingtoStake)
 		if (newMaxAmount > remainingtoStake) {
 			setUserCanStake(remainingtoStake)
 		}

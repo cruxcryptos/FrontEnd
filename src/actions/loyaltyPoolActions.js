@@ -5,6 +5,7 @@ import {
 	ADDR_ADX,
 	CRUX_MIDPOOL_STAKEADDRESS,
 	CRUX_SMALLPOOL_STAKEADDRESS,
+	CRUX_SMALL_MIDTERM_STAKEADDRESS,
 	ZERO,
 	MAX_UINT,
 	CRUX_LARGEPOOL_STAKEADDRESS
@@ -29,9 +30,14 @@ const CruxSmallpoolStakeContract = new Contract(
 	provider
 )
 
-
 const CruxLongpoolStakeContract = new Contract(
 	CRUX_LARGEPOOL_STAKEADDRESS,
+	CRUX_MIDPOOL_ABI,
+	provider
+)
+
+const CruxSmallMidTermStakeContract = new Contract(
+	CRUX_SMALL_MIDTERM_STAKEADDRESS,
 	CRUX_MIDPOOL_ABI,
 	provider
 )
@@ -57,9 +63,9 @@ export const LOYALTY_POOP_EMPTY_STATS = {
 }
 
 export async function loadCruxMidPoolData(addr) {
-	console.log('getting stats')
+	console.log("getting stats")
 	if (addr !== undefined) {
-		console.log('wallet detected')
+		console.log("wallet detected")
 		const [
 			poolTotalStaked,
 			currentAPY,
@@ -71,7 +77,7 @@ export async function loadCruxMidPoolData(addr) {
 			poolCurrentRewardsUser,
 			lockupPeriodEnd,
 			endUserLockDate,
-			poolLockTimeDeposit,
+			poolLockTimeDeposit
 		] = await Promise.all([
 			CruxMidpoolStakeContract.totalDeposited(),
 			CruxMidpoolStakeContract.fixedAPY(),
@@ -90,7 +96,6 @@ export async function loadCruxMidPoolData(addr) {
 			(100 * poolTotalStaked) /
 			poolDepositsLimit
 		).toFixed(2)
-		console.log('current Apy: ' + currentAPY)
 
 		return {
 			...LOYALTY_POOP_EMPTY_STATS,
@@ -121,17 +126,18 @@ export async function loadCruxMidPoolData(addr) {
 		let poolLockTimeDeposit = 0
 		return {
 			LOYALTY_POOP_EMPTY_STATS,
-		poolTotalStaked,
-		currentAPY,
-		poolDepositsLimit,
-		stakingDuration,
-		startPeriod,
-		endPeriod,
-		poolTotalStakedUser,
-		poolCurrentRewardsUser,
-		lockupPeriodEnd,
-		endUserLockDate,
-		poolLockTimeDeposit}
+			poolTotalStaked,
+			currentAPY,
+			poolDepositsLimit,
+			stakingDuration,
+			startPeriod,
+			endPeriod,
+			poolTotalStakedUser,
+			poolCurrentRewardsUser,
+			lockupPeriodEnd,
+			endUserLockDate,
+			poolLockTimeDeposit
+		}
 	}
 }
 
@@ -170,7 +176,7 @@ export async function loadSmallPoolData(addr) {
 			poolCurrentRewardsUser,
 			lockupPeriodEnd,
 			endUserLockDate,
-			poolLockTimeDeposit,
+			poolLockTimeDeposit
 		] = await Promise.all([
 			CruxSmallpoolStakeContract.totalDeposited(),
 			CruxSmallpoolStakeContract.fixedAPY(),
@@ -230,6 +236,59 @@ export async function loadUserSmallPoolStats(walletAddr) {
 	}
 
 	return stats
+}
+
+export async function loadSmallMidData(addr) {
+	if (addr !== undefined) {
+		const [
+			poolTotalStaked,
+			currentAPY,
+			poolDepositsLimit,
+			stakingDuration,
+			startPeriod,
+			endPeriod,
+			poolTotalStakedUser,
+			poolCurrentRewardsUser,
+			lockupPeriodEnd,
+			endUserLockDate,
+			poolLockTimeDeposit
+		] = await Promise.all([
+			CruxSmallMidTermStakeContract.totalDeposited(),
+			CruxSmallMidTermStakeContract.fixedAPY(),
+			CruxSmallMidTermStakeContract.stakingMax(),
+			CruxSmallMidTermStakeContract.stakingDuration(),
+			CruxSmallMidTermStakeContract.startPeriod(),
+			CruxSmallMidTermStakeContract.endPeriod(),
+			CruxSmallMidTermStakeContract.amountStaked(addr),
+			CruxSmallMidTermStakeContract.rewardOf(addr),
+			CruxSmallMidTermStakeContract.lockupPeriod(),
+			CruxSmallMidTermStakeContract.endLockStaking(addr),
+			CruxSmallMidTermStakeContract.fixedLockDays()
+		])
+
+		let PercentageFilled = (
+			(100 * poolTotalStaked) /
+			poolDepositsLimit
+		).toFixed(2)
+
+		return {
+			...LOYALTY_POOP_EMPTY_STATS,
+			poolTotalStaked,
+			currentAPY,
+			poolDepositsLimit,
+			stakingDuration,
+			startPeriod,
+			endPeriod,
+			poolTotalStakedUser,
+			poolCurrentRewardsUser,
+			lockupPeriodEnd,
+			PercentageFilled,
+			endUserLockDate,
+			poolLockTimeDeposit
+		}
+	} else {
+		return LOYALTY_POOP_EMPTY_STATS
+	}
 }
 
 export async function loadLongPoolData(addr) {
@@ -306,6 +365,29 @@ export async function loadUserLongPoolStats(walletAddr) {
 
 	return stats
 }
+
+export async function loadUserSmallMidPoolStats(walletAddr) {
+	const poolData = await loadSmallMidData(walletAddr)
+	if (!walletAddr) {
+		return {
+			...poolData,
+			loaded: true
+		}
+	}
+
+	const currentBalance = {
+		...poolData,
+		loaded: true,
+		userDataLoaded: true
+	}
+
+	const stats = {
+		...currentBalance
+	}
+
+	return stats
+}
+
 export async function onLoyaltyPoolDeposit(
 	stats,
 	chosenWalletType,
@@ -455,6 +537,56 @@ export async function onLongPoolDeposit(
 	return Promise.all(actions)
 }
 
+export async function onSmallMidDeposit(
+	stats,
+	chosenWalletType,
+	adxDepositAmount
+) {
+	if (!stats) throw new Error("errors.statsNotProvided")
+	if (!adxDepositAmount) throw new Error("errors.noDepositAmount")
+	if (adxDepositAmount.isZero()) throw new Error("errors.zeroDeposit")
+	if (adxDepositAmount.gt(stats.userBalance))
+		throw new Error("errors.amountTooLarge")
+
+	const signer = await getSigner(chosenWalletType)
+	const walletAddr = await signer.getAddress()
+
+	const [allowanceADXLOYALTY] = await Promise.all([
+		Token.allowance(walletAddr, CruxSmallMidTermStakeContract.address)
+	])
+
+	const setAllowance = allowanceADXLOYALTY.lt(adxDepositAmount)
+	const actions = []
+
+	if (setAllowance) {
+		const tokenWithSigner = new Contract(ADDR_ADX, ERC20ABI, signer)
+		const approve = async () =>
+			tokenWithSigner.approve(CruxSmallMidTermStakeContract.address, MAX_UINT)
+
+		if (isAmbireWallet(signer)) {
+			actions.push(approve())
+			await timeout(1090)
+		} else {
+			await approve()
+		}
+	}
+
+	const CruxSmallMidTermStakeContractWithSigner = new Contract(
+		CRUX_SMALL_MIDTERM_STAKEADDRESS,
+		CRUX_MIDPOOL_ABI,
+		signer
+	)
+
+	actions.push(
+		CruxSmallMidTermStakeContractWithSigner.deposit(
+			adxDepositAmount,
+			setAllowance ? { gasLimit: 150000 } : {}
+		)
+	)
+
+	return Promise.all(actions)
+}
+
 export async function onLoyaltyPoolClaimRewards(stats, chosenWalletType) {
 	if (!stats) throw new Error("errors.statsNotProvided")
 
@@ -509,6 +641,23 @@ export async function onLongPoolClaimRewards(stats, chosenWalletType) {
 	return Promise.all(actions)
 }
 
+export async function onSmallMidClaimRewards(stats, chosenWalletType) {
+	if (!stats) throw new Error("errors.statsNotProvided")
+
+	const signer = await getSigner(chosenWalletType)
+
+	const actions = []
+
+	const onSmallMidClaimRewardswithSigner = new Contract(
+		CRUX_SMALL_MIDTERM_STAKEADDRESS,
+		CRUX_MIDPOOL_ABI,
+		signer
+	)
+
+	actions.push(onSmallMidClaimRewardswithSigner.claimRewards())
+
+	return Promise.all(actions)
+}
 
 export async function onLoyaltyPoolWithdraw(stats, chosenWalletType) {
 	if (!stats) throw new Error("errors.statsNotProvided")
@@ -534,6 +683,19 @@ export async function onSmallPoolWithdraw(stats, chosenWalletType) {
 		signer
 	)
 	await CruxSmallpoolStakeContractSigner.withdrawAll()
+}
+
+export async function onSmallMidPoolWithdraw(stats, chosenWalletType) {
+	if (!stats) throw new Error("errors.statsNotProvided")
+
+	const signer = await getSigner(chosenWalletType)
+
+	const CruxSmallMidTermStakeContractSigner = new Contract(
+		CRUX_SMALL_MIDTERM_STAKEADDRESS,
+		CRUX_MIDPOOL_ABI,
+		signer
+	)
+	await CruxSmallMidTermStakeContractSigner.withdrawAll()
 }
 
 export async function onLongPoolWithdraw(stats, chosenWalletType) {
