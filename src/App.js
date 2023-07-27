@@ -21,13 +21,13 @@ const App = () => {
 	return (
 		<React.Fragment>
 			<AppContext.Provider value={appHooks}>
-				<FarmProvider>
+{/* 				<FarmProvider>
 					<ValidatorStatsContext.Provider value={validatorStatsHooks}>
 						<Router>
 							<Root />
 						</Router>
 					</ValidatorStatsContext.Provider>
-				</FarmProvider>
+				</FarmProvider> */}
 			</AppContext.Provider>
 		</React.Fragment>
 	)
